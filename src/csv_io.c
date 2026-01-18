@@ -1,5 +1,5 @@
-#include "include\\csv_io.h"
-#include "include\\library_state.h"
+#include "include/"
+#include "include/library_state.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -68,13 +68,13 @@ void load_csv_file(const char *filename, Library_state *state) {
     printf("Plik został wczytany. Liczba książek w pamięci: %zu\n", state->count);
 }
 
-void create_file(const char *filename){
-    FILE *fptr = fopen(filename, "w");
+int create_file(const char *filename){
+    FILE *fptr;
+    fptr = fopen(filename, "w");
     if (fptr == NULL) {
         perror("Nie udało się utworzyć pliku");
     }
 
-    fclose(fptr);
     printf("Plik '%s' został utworzony lub istnieje.\n", filename);
-    
+    return 0;
 }

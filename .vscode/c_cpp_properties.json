@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/src/model"
+                "${workspaceFolder}/src/include"
             ],
             "defines": [
                 "_DEBUG",
