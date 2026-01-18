@@ -1,5 +1,8 @@
-#include "csv_io.h"
+#include "include\\csv_io.h"
+#include "include\\library_state.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 void save_library_to_csv(const char *filename, Library_state *library) {
     FILE *file = fopen(filename, "w");
@@ -11,7 +14,7 @@ void save_library_to_csv(const char *filename, Library_state *library) {
     fprintf(file, "book_id;title;author;year\n");
 
     for (size_t i = 0; i < library->count; i++) {
-        save_book_to_csv(file, &library->book_list[i]);
+        save_library_to_csv("library.csv", library);
     }
 
     fclose(file);
