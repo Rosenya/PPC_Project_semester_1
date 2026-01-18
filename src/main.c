@@ -1,7 +1,8 @@
 #include "csv_io.c"
+#include <stdio.h>
 
 int main(void){
-    read_file("\\src\\data\\library.txt");
+    create_file("library.txt");
 
     return 0;
 }

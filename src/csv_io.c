@@ -5,22 +5,24 @@
 #include <string.h>
 
 void save_library_to_csv(const char *filename, Library_state *library) {
-    FILE *file = fopen(filename, "w");
-    if (file == NULL) {
+    FILE *fptr = fopen(filename, "w");
+    if (fptr == NULL) {
         perror("Nie można otworzyć pliku");
         return;
     }
 
-    fprintf(file, "book_id;title;author;year\n");
-
     for (size_t i = 0; i < library->count; i++) {
-        save_library_to_csv("library.csv", library);
+        fprintf(fptr, "%d;%s;%s;%d\n",
+                library->book_list[i].book_id,
+                library->book_list[i].title,
+                library->book_list[i].author,
+                library->book_list[i].year);
     }
 
-    fclose(file);
+    fclose(fptr);
 }
 
-int read_file(const char *filename){
+void read_file(const char *filename){
     FILE *fptr;
     fptr = fopen(filename, "r");
 
@@ -30,7 +32,6 @@ int read_file(const char *filename){
 
     fclose(fptr);
     printf("Plik istnieje i został otwarty.\n");
-    return 1;
 }
 
 void load_csv_file(const char *filename, Library_state *state) {
@@ -65,4 +66,15 @@ void load_csv_file(const char *filename, Library_state *state) {
 
     fclose(fptr);
     printf("Plik został wczytany. Liczba książek w pamięci: %zu\n", state->count);
+}
+
+void create_file(const char *filename){
+    FILE *fptr = fopen(filename, "w");
+    if (fptr == NULL) {
+        perror("Nie udało się utworzyć pliku");
+    }
+
+    fclose(fptr);
+    printf("Plik '%s' został utworzony lub istnieje.\n", filename);
+    
 }
