@@ -1,13 +1,13 @@
-#include "include/"
+#include "include/csv_io.h"
 #include "include/library_state.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
 void save_library_to_csv(const char *filename, Library_state *library) {
-    FILE *fptr = fopen(filename, "w");
+    FILE *fptr = fopen(filename, "a");
     if (fptr == NULL) {
-        perror("Nie można otworzyć pliku");
+        fprintf(stderr, "Nie można otworzyć pliku");
         return;
     }
 
@@ -31,7 +31,7 @@ void read_file(const char *filename){
     }
 
     fclose(fptr);
-    printf("Plik istnieje i został otwarty.\n");
+    printf("Plik istnieje i zostal otwarty.\n");
 }
 
 void load_csv_file(const char *filename, Library_state *state) {
@@ -69,12 +69,15 @@ void load_csv_file(const char *filename, Library_state *state) {
 }
 
 int create_file(const char *filename){
+    fprintf(stderr, "wejscie ok: %s\n", filename);
     FILE *fptr;
     fptr = fopen(filename, "w");
     if (fptr == NULL) {
-        perror("Nie udało się utworzyć pliku");
+        fprintf(stderr, "Nie udało się utworzyć pliku");
     }
 
-    printf("Plik '%s' został utworzony lub istnieje.\n", filename);
+    fclose(fptr);
+
+    printf("Plik '%s' zostal utworzony lub istnieje.\n", filename);
     return 0;
 }

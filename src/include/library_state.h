@@ -3,6 +3,9 @@
 
 #include "book.h"
 #include <stddef.h>
+/* Użycie biblioteki stddef.h dla typu size_t. Size_t reprezentuje liczby całkowite nieujemne i jest używany podczas pracy z pamięcią.
+Zdecydowałam się na jego użycie, ze wględu na jego lepszą stabilność i elastyczność przy użyciu w różnych systemach operacyjnych.
+Uznałam, że dzięki temu mój kod będzie mniej narażony na błędy.*/
 
 typedef struct {
     Book *book_list;
@@ -12,7 +15,7 @@ typedef struct {
 } Library_state;
 
 Library_state* create_library_state(size_t initial_capacity);
-Library_state* add_book(Library_state* state, const char* title, const char* author, int year);
+Library_state* add_book(Library_state* state);
 Book* find_all_books(Library_state* state);
 Book* find_book_by_id(Library_state* state, int book_id);
 Book* find_books_by_title(Library_state* state, const char* title);
@@ -22,4 +25,7 @@ Book* find_newest_books_of_given_amount(Library_state* state, size_t amount);
 Book* find_oldest_and_newest_books(Library_state* state);
 Book* delete_book_by_id(Library_state* state, int book_id);
 Book* edit_book_by_id(Library_state* state, int book_id, const char* new_title, const char* new_author, int new_year);
+void set_title(Book* book);
+void set_author(Book* book);
+void set_year(Book* book);
 #endif 
