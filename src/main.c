@@ -10,8 +10,13 @@ int main(void){
     library = create_library_state(10);
 
     library = add_book(library);
-    find_all_books(library);
+    library = add_book(library);
     
+    find_book_by_id(library);
+    find_books_by_title(library);
+    // find_books_by_author(library);
+    // find_books_by_year(library);
+    find_all_books(library);
 
     return 0;
 }   

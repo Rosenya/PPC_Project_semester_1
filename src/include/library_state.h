@@ -17,15 +17,13 @@ typedef struct {
 Library_state* create_library_state(size_t initial_capacity);
 Library_state* add_book(Library_state* state);
 Book* find_all_books(Library_state* state);
-Book* find_book_by_id(Library_state* state, int book_id);
-Book* find_books_by_title(Library_state* state, const char* title);
-Book* find_books_by_author(Library_state* state, const char* author);
-Book* find_books_by_year(Library_state* state, int year);
-Book* find_newest_books_of_given_amount(Library_state* state, size_t amount);
+Book* find_book_by_id(Library_state* state);
+Book* find_books_by_title(Library_state* state);
+Book* find_books_by_author(Library_state* state);
+Book* find_books_by_year(Library_state* state);
+Book* find_newest_books_of_given_amount(Library_state* state);
 Book* find_oldest_and_newest_books(Library_state* state);
-Book* delete_book_by_id(Library_state* state, int book_id);
+Book* delete_book_by_id(Library_state* state);
 Book* edit_book_by_id(Library_state* state, int book_id, const char* new_title, const char* new_author, int new_year);
-void set_title(Book* book);
-void set_author(Book* book);
-void set_year(Book* book);
+void free_library_state(Library_state* state);
 #endif 
