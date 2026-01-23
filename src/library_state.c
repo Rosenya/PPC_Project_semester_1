@@ -28,7 +28,6 @@ Library_state* add_book(Library_state* state) {
     set_title(new_book);
     set_author(new_book);
     set_year(new_book);
-    getchar();
     return state;
 }
 
@@ -54,10 +53,6 @@ Book* find_book_by_id(Library_state* state) {
             printf("Nie znaleziono ksiazki o podanym ID: %d\n", book_id);
         }
     }
-    void clear_stdin() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
     return NULL;
 }
 

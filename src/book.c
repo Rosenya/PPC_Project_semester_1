@@ -4,6 +4,7 @@
 #include <string.h>
 #define BUFFER_SIZE 50
 
+
 Book* get_book_id(const Book* book) {
     return (Book*)book;
 }
@@ -39,15 +40,21 @@ void set_author(Book* book) {
 }
 
 void set_year(Book* book) {
+    char buffer[BUFFER_SIZE];
     printf("Podaj rok: ");
-    scanf("%d", &book->year);
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+    sscanf(buffer, "%d", &book->year);
     
 }
 
 int get_book_id_from_user() {
     int book_id;
+    char buffer[BUFFER_SIZE];
     printf("Podaj ID ksiazki: ");
-    scanf("%d", &book_id);
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+    sscanf(buffer, "%d", &book_id);
     return book_id;
 }
 
@@ -56,7 +63,6 @@ char* get_book_title_from_user() {
     printf("Podaj tytul ksiazki: ");
     fgets(title, BUFFER_SIZE, stdin);
     title[strcspn(title, "\n")] = '\0';
-    getchar();
     printf("Szukany tytul: %s\n", title);
     return title;
 }
@@ -74,13 +80,7 @@ int get_book_year_from_user() {
     int year;
     printf("Podaj rok: ");
     scanf("%d", &year);
-    getchar();
     return year;
-}
-
-void clear_stdin() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
 }
 
 //dodac walidacje year > 0
