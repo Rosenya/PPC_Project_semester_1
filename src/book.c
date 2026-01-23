@@ -56,6 +56,8 @@ char* get_book_title_from_user() {
     printf("Podaj tytul ksiazki: ");
     fgets(title, BUFFER_SIZE, stdin);
     title[strcspn(title, "\n")] = '\0';
+    getchar();
+    printf("Szukany tytul: %s\n", title);
     return title;
 }
 
@@ -76,4 +78,9 @@ int get_book_year_from_user() {
     return year;
 }
 
-//dodac walidacje year > 0 i year <= obecny rok
+void clear_stdin() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+//dodac walidacje year > 0

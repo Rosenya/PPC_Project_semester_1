@@ -37,7 +37,7 @@ Book* find_all_books(Library_state* state) {
         printf("Brak ksiazek w bibliotece.\n");
     }
     for (size_t i = 0; i < state->count; i++) {
-        printf("ID: %d, Tytul: %s, Autor: %s, Rok: %d\n", 
+        printf("Find all books. ID: %d, Tytul: %s, Autor: %s, Rok: %d\n", 
             state->book_list[i].book_id, state->book_list[i].title, state->book_list[i].author, state->book_list[i].year);
     }
     return state->book_list;
@@ -47,11 +47,17 @@ Book* find_book_by_id(Library_state* state) {
     int book_id = get_book_id_from_user();
     for (size_t i = 0; i < state->count; i++) {
         if (state->book_list[i].book_id == book_id) {
-            printf("Znaleziono ksiazke: ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+            printf("Find by id. Znaleziono ksiazke: ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
                  state->book_list[i].book_id, state->book_list[i].title, state->book_list[i].author, state->book_list[i].year);
             return &state->book_list[i];
+        } else {
+            printf("Nie znaleziono ksiazki o podanym ID: %d\n", book_id);
         }
     }
+    void clear_stdin() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
     return NULL;
 }
 
@@ -60,10 +66,14 @@ Book* find_books_by_title(Library_state* state) {
     Book* results = (Book*)malloc(sizeof(Book) * state->count);
     size_t result_count = 0;
     for (size_t i = 0; i < state->count; i++) {
-        if (strstr(state->book_list[i].title, title) != NULL) {
+        if (strcmp(state->book_list[i].title, title) == 0) {
             results[result_count++] = state->book_list[i];
-            printf("ID: %d, Tytul: %s, Autor: %s, Rok: %d\n", 
-                state->book_list[i].book_id, state->book_list[i].title, state->book_list[i].author, state->book_list[i].year);    
+            printf("Find by title. Znaleziono %zu rezultatow. ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+                    result_count,
+                    state->book_list[i].book_id,
+                    state->book_list[i].title,
+                    state->book_list[i].author,
+                    state->book_list[i].year);
         }
     }
     return results;
