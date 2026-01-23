@@ -12,10 +12,16 @@ int main(void){
     library = add_book(library);
     library = add_book(library);
     
-    find_book_by_id(library);
-    find_books_by_title(library);
-    find_books_by_author(library);
-    find_books_by_year(library);
+    // find_book_by_id(library);
+    // find_books_by_title(library);
+    // find_books_by_author(library);
+    // find_books_by_year(library);
+    // find_all_books(library);
+    // delete_book_by_id(library);
+    // find_all_books(library);
+    // edit_book_by_id(library);
+    find_newest_books_of_given_amount(library);
+    // find_oldest_and_newest_books(library);
     find_all_books(library);
 
     return 0;

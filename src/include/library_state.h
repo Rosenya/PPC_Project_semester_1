@@ -24,6 +24,6 @@ Book* find_books_by_year(Library_state* state);
 Book* find_newest_books_of_given_amount(Library_state* state);
 Book* find_oldest_and_newest_books(Library_state* state);
 Book* delete_book_by_id(Library_state* state);
-Book* edit_book_by_id(Library_state* state, int book_id, const char* new_title, const char* new_author, int new_year);
+Book* edit_book_by_id(Library_state* state);
 void free_library_state(Library_state* state);
 #endif 

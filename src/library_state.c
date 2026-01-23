@@ -137,60 +137,95 @@ Book* find_books_by_year(Library_state* state) {
     return results;
 }
 
-// Book* delete_book_by_id(Library_state* state) {
-//     Book* book = get_book_id_from_user();
-//     int book_id = book->book_id;
-//     for (size_t i = 0; i < state->count; i++) {
-//         if (state->book_list[i].book_id == book_id) {
-//             Book* deleted_book = (Book*)malloc(sizeof(Book));
-//             *deleted_book = state->book_list[i];
-//             for (size_t j = i; j < state->count - 1; j++) {
-//                 state->book_list[j] = state->book_list[j + 1];
-//             }
-//             state->count--;
-//             return deleted_book;
-//         }
-//     }
-//     return NULL;
-// }
+Book* delete_book_by_id(Library_state* state) {
+    int book_id = get_book_id_from_user();
+    for (size_t i = 0; i < state->count; i++) {
+        if (state->book_list[i].book_id == book_id) {
 
-// Book* edit_book_by_id(Library_state* state, int book_id, const char* new_title, const char* new_author, int new_year) {
-//     Book* book = find_book_by_id(state, book_id);
-//     if (book != NULL) {
-//         strncpy(book->title, new_title, sizeof(book->title) - 1);
-//         book->title[sizeof(book->title) - 1] = '\0';
-//         strncpy(book->author, new_author, sizeof(book->author) - 1);
-//         book->author[sizeof(book->author) - 1] = '\0';
-//         book->year = new_year;
-//         return book;
-//     }
-//     return NULL;
-// }
+            Book* deleted_book = malloc(sizeof(Book));
+            if (!deleted_book) return NULL;
 
-// Book* find_newest_books_of_given_amount(Library_state* state, size_t amount) {
-//     if (amount == 0 || state->count == 0) {
-//         return NULL;
-//     }
+            *deleted_book = state->book_list[i];
 
-//     Book* sorted_books = (Book*)malloc(sizeof(Book) * state->count);
-//     memcpy(sorted_books, state->book_list, sizeof(Book) * state->count);
+            for (size_t j = i; j < state->count - 1; j++) {
+                state->book_list[j] = state->book_list[j + 1];
+            }
 
-//     for (size_t i = 0; i < state->count - 1; i++) {
-//         for (size_t j = i + 1; j < state->count; j++) {
-//             if (sorted_books[i].year < sorted_books[j].year) {
-//                 Book temp = sorted_books[i];
-//                 sorted_books[i] = sorted_books[j];
-//                 sorted_books[j] = temp;
-//             }
-//         }
-//     }
+            state->count--;
+            printf("Ksiazka o ID %d zostala usunieta pomyslnie.\n", book_id);
+            return deleted_book;
+        }
+    }
+    printf("Nie znaleziono ksiazki o ID %d.\n", book_id);
+    return NULL;
+}
 
-//     size_t result_count = (amount < state->count) ? amount : state->count;
-//     Book* results = (Book*)malloc(sizeof(Book) * result_count);
-//     memcpy(results, sorted_books, sizeof(Book) * result_count);
-//     free(sorted_books);
-//     return results;
-// }
+Book* edit_book_by_id(Library_state* state) {
+    int book_id = get_book_id_from_user();
+    printf("Podaj ID ksiazki do edycji: ");
+    Book* book = NULL;
+    for (size_t i = 0; i < state->count; i++) {
+        if (state->book_list[i].book_id == book_id) {
+            book = &state->book_list[i];
+            break;
+        }
+    }
+    if (!book) {
+        printf("Nie znaleziono ksiazki o ID %d.\n", book_id);
+        return NULL;
+    }
+    printf("Podaj nowe dane ksiazki:\n");
+    set_title(book);
+    set_author(book);
+    set_year(book);
+
+    printf("Ksiazka o ID %d zostala zaktualizowana.\n", book_id);
+    return book;
+}
+
+Book* find_newest_books_of_given_amount(Library_state* state) {
+    if (state->count == 0) {
+        printf("Biblioteka jest pusta.\n");
+        return NULL;
+    }
+
+    size_t amount;
+    char buffer[32];
+    printf("Podaj ile najnowszych ksiazek chcesz zobaczyc: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    amount = (size_t)strtoul(buffer, NULL, 10);
+
+    if (amount == 0) {
+        printf("Nie podano poprawnej liczby ksiazek.\n");
+        return NULL;
+    }
+
+    size_t result_count = (amount < state->count) ? amount : state->count;
+
+    Book* temp = malloc(sizeof(Book) * state->count);
+    if (!temp) return NULL;
+    memcpy(temp, state->book_list, sizeof(Book) * state->count);
+
+    for (size_t i = 0; i < state->count - 1; i++) {
+        for (size_t j = i + 1; j < state->count; j++) {
+            if (temp[i].year < temp[j].year) {
+                Book t = temp[i];
+                temp[i] = temp[j];
+                temp[j] = t;
+            }
+        }
+    }
+
+    Book* results = malloc(sizeof(Book) * result_count);
+    if (!results) {
+        free(temp);
+        return NULL;
+    }
+    memcpy(results, temp, sizeof(Book) * result_count);
+    free(temp);
+
+    return results;
+}
 
 // Book* find_oldest_and_newest_books(Library_state* state) {
 //     if (state->count == 0) {
