@@ -45,7 +45,7 @@ void set_year(Book* book) {
     fgets(buffer, sizeof(buffer), stdin);
     buffer[strcspn(buffer, "\n")] = '\0';
     sscanf(buffer, "%d", &book->year);
-    
+
 }
 
 int get_book_id_from_user() {
@@ -78,8 +78,11 @@ char* get_book_author_from_user() {
 
 int get_book_year_from_user() {
     int year;
+    char buffer[BUFFER_SIZE];
     printf("Podaj rok: ");
-    scanf("%d", &year);
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = '\0';
+    sscanf(buffer, "%d", &year);
     return year;
 }
 

@@ -46,13 +46,19 @@ Book* find_book_by_id(Library_state* state) {
     int book_id = get_book_id_from_user();
     for (size_t i = 0; i < state->count; i++) {
         if (state->book_list[i].book_id == book_id) {
-            printf("Find by id. Znaleziono ksiazke: ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
-                 state->book_list[i].book_id, state->book_list[i].title, state->book_list[i].author, state->book_list[i].year);
+            printf(
+                "Find by id. Znaleziono ksiazke: "
+                "ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+                state->book_list[i].book_id,
+                state->book_list[i].title,
+                state->book_list[i].author,
+                state->book_list[i].year
+            );
             return &state->book_list[i];
-        } else {
-            printf("Nie znaleziono ksiazki o podanym ID: %d\n", book_id);
         }
     }
+
+    printf("Nie znaleziono ksiazki o podanym ID: %d\n", book_id);
     return NULL;
 }
 
@@ -63,38 +69,73 @@ Book* find_books_by_title(Library_state* state) {
     for (size_t i = 0; i < state->count; i++) {
         if (strcmp(state->book_list[i].title, title) == 0) {
             results[result_count++] = state->book_list[i];
-            printf("Find by title. Znaleziono %zu rezultatow. ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
-                    result_count,
-                    state->book_list[i].book_id,
-                    state->book_list[i].title,
-                    state->book_list[i].author,
-                    state->book_list[i].year);
         }
+    }
+    if (result_count == 0) {
+        printf("Nie znaleziono ksiazki o podanym tytule: %s\n", title);
+        free(results);
+        return NULL;
+    }
+    printf("Find by title. Znaleziono %zu rezultatow.\n", result_count);
+    for (size_t i = 0; i < result_count; i++) {
+        printf("ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+               results[i].book_id,
+               results[i].title,
+               results[i].author,
+               results[i].year);
     }
     return results;
 }
 
-// Book* find_books_by_author(Library_state* state) {
-//     Book* results = (Book*)malloc(sizeof(Book) * state->count);
-//     size_t result_count = 0;
-//     for (size_t i = 0; i < state->count; i++) {
-//         if (strstr(state->book_list[i].author, author) != NULL) {
-//             results[result_count++] = state->book_list[i];
-//         }
-//     }
-//     return results;
-// }
+Book* find_books_by_author(Library_state* state) {
+    char* author = get_book_author_from_user();
+    Book* results = (Book*)malloc(sizeof(Book) * state->count);
+    size_t result_count = 0;
+    for (size_t i = 0; i < state->count; i++) {
+        if (strcmp(state->book_list[i].author, author) == 0) {
+            results[result_count++] = state->book_list[i];
+        }
+    }
+    if (result_count == 0) {
+        printf("Nie znaleziono ksiazki tego autora: %s\n", author);
+        free(results);
+        return NULL;
+    }
+    printf("Find by author. Znaleziono %zu rezultatow.\n", result_count);
+    for (size_t i = 0; i < result_count; i++) {
+        printf("ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+               results[i].book_id,
+               results[i].title,
+               results[i].author,
+               results[i].year);
+    }
+    return results;
+}
 
-// Book* find_books_by_year(Library_state* state) {
-//     Book* results = (Book*)malloc(sizeof(Book) * state->count);
-//     size_t result_count = 0;
-//     for (size_t i = 0; i < state->count; i++) {
-//         if (state->book_list[i].year == year) {
-//             results[result_count++] = state->book_list[i];
-//         }
-//     }
-//     return results;
-// }
+Book* find_books_by_year(Library_state* state) {
+    int year = get_book_year_from_user();
+    Book* results = (Book*)malloc(sizeof(Book) * state->count);
+    size_t result_count = 0;
+    for (size_t i = 0; i < state->count; i++) {
+        if (state->book_list[i].year == year) {
+            results[result_count++] = state->book_list[i];
+        }
+    }
+    if (result_count == 0) {
+        printf("Nie znaleziono ksiazki z podanego roku: %d\n", year);
+        free(results);
+        return NULL;
+    }
+    printf("Find by year. Znaleziono %zu rezultatow.\n", result_count);
+    for (size_t i = 0; i < result_count; i++) {
+        printf("ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+               results[i].book_id,
+               results[i].title,
+               results[i].author,
+               results[i].year);
+    }
+    return results;
+}
 
 // Book* delete_book_by_id(Library_state* state) {
 //     Book* book = get_book_id_from_user();
