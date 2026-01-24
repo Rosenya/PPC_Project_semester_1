@@ -4,10 +4,35 @@
 #include <stdlib.h>
 #include <string.h>
 
-void save_library_to_csv(const char *filename, Library_state *library) {
+int create_file(const char *filename) {
     FILE *fptr = fopen(filename, "a");
     if (fptr == NULL) {
-        fprintf(stderr, "Nie można otworzyć pliku");
+        fprintf(stderr, "Nie udalo sie utworzyc pliku: %s\n", filename);
+        return 1;
+    }
+
+    fclose(fptr);
+
+    printf("Plik '%s' zostal utworzony lub juz istnial.\n", filename);
+    return 0;
+}
+
+// void read_file(const char *filename) {
+//     FILE *fptr = fopen(filename, "r");
+//     if (fptr == NULL) {
+//         printf("Nie udalo sie otworzyc pliku.\n");
+//         return;
+//     }
+
+//     printf("Plik istnieje i zostal otwarty.\n");
+
+//     fclose(fptr);
+// }
+
+void save_library_to_csv(const char *filename, Library_state *library) {
+    FILE *fptr = fopen(filename, "w");
+    if (fptr == NULL) {
+        fprintf(stderr, "Nie mozna otworzyć pliku");
         return;
     }
 
@@ -22,29 +47,16 @@ void save_library_to_csv(const char *filename, Library_state *library) {
     fclose(fptr);
 }
 
-void read_file(const char *filename){
-    FILE *fptr;
-    fptr = fopen(filename, "r");
-
-    if (fptr == NULL) {
-        printf("Nie udalo się otworzyć pliku.\n");
-    }
-
-    fclose(fptr);
-    printf("Plik istnieje i zostal otwarty.\n");
-}
-
 void load_csv_file(const char *filename, Library_state *state) {
     FILE *fptr = fopen(filename, "r");
     if (fptr == NULL) {
-        printf("Nie udało się otworzyć pliku %s\n", filename);
+        printf("Nie udalo się otworzyc pliku %s\n", filename);
         return;
     }
 
-    printf("Plik został otwarty.\n");
+    printf("Plik zostal otwarty.\n");
 
     char line[256];
-    fgets(line, sizeof(line), fptr);
 
     while (fgets(line, sizeof(line), fptr) != NULL) {
         int id, year;
@@ -65,19 +77,5 @@ void load_csv_file(const char *filename, Library_state *state) {
     }
 
     fclose(fptr);
-    printf("Plik został wczytany. Liczba książek w pamięci: %zu\n", state->count);
-}
-
-int create_file(const char *filename){
-    fprintf(stderr, "wejscie ok: %s\n", filename);
-    FILE *fptr;
-    fptr = fopen(filename, "w");
-    if (fptr == NULL) {
-        fprintf(stderr, "Nie udało się utworzyć pliku");
-    }
-
-    fclose(fptr);
-
-    printf("Plik '%s' zostal utworzony lub istnieje.\n", filename);
-    return 0;
+    printf("Plik zostal wczytany. Liczba ksiazek w pamieci: %zu\n", state->count);
 }

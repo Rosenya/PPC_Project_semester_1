@@ -8,11 +8,9 @@
 int main(void){
     Library_state *library = NULL;
     create_file("library.csv");
-    read_file("library.csv");
     library = create_library_state(10);
     menu_controller(library);
+    save_library_to_csv("library.csv", library);
     free_library_state(library);
-
-
     return 0;
 }   
