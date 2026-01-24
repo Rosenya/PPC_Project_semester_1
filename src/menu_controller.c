@@ -21,19 +21,27 @@ void menu_controller(Library_state* state) {
         }
 
         switch (choice) {
+            // Operacje na stanie biblioteki
             case 1: load_or_create_csv_file("library.csv", state); break;
             case 2: add_book(state); break;
             case 3: delete_book_by_id(state); break;
             case 4: edit_book_by_id(state); break;
             case 5: find_all_books(state); break;
-            case 6: report_author_after_given_year(state); break;
-            case 7: report_author_for_year_range(state); break;
-            case 8: report_newest_books_of_given_amount(state); break;
-            case 9: report_oldest_and_newest_books(state); break;
-            case 0: running = 0; break;
-    default: 
-        printf("Nieprawidlowy wybor. Sprobuj ponownie.\n");
-        break;
+            // Wyszukiwania
+            case 6: find_book_by_id(state); break;
+            case 7: find_books_by_title(state); break;
+            case 8: find_books_by_author(state); break;
+            case 9: find_books_by_year(state); break;
+            // Raporty
+            case 10: report_author_after_given_year(state); break;
+            case 11: report_author_for_year_range(state); break;
+            case 12: report_newest_books_of_given_amount(state); break;
+            case 13: report_oldest_and_newest_books(state); break;
+    
+            case 0: running = 0; break;    
+            default:     
+            printf("Nieprawidlowy wybor. Sprobuj ponownie.\n");    
+            break;
 }
 
     }
@@ -47,11 +55,16 @@ void menu_msg() {
         printf("2. Dodaj ksiazke\n");
         printf("3. Usun ksiazke\n");
         printf("4. Edytuj ksiazke\n");
+        printf("\nWyszukiwania:\n");
         printf("5. Wyswietl wszystkie ksiazki\n");
-        printf("6. Raport: autor po roku X\n");
-        printf("7. Raport: autor w przedziale lat\n");
-        printf("8. Raport: TOP N najnowszych\n");
-        printf("9. Raport: najstarsza i najnowsza ksiazka\n");
-        printf("0. Zakoncz\n");
+        printf("6. Znajdz ksiazke po ID\n");
+        printf("7. Znajdz ksiazki po tytule\n");
+        printf("8. Znajdz ksiazki po autorze\n");
+        printf("9. Znajdz ksiazki z danego roku\n");
+        printf("\nRaporty:\n");
+        printf("10. Raport: autor po roku X\n");
+        printf("11. Raport: autor w przedziale lat\n");
+        printf("12. Raport: TOP N najnowszych\n");
+        printf("13. Raport: najstarsza i najnowsza ksiazka\n");
         printf("Twoj wybor: ");
 }
