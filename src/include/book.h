@@ -9,10 +9,6 @@ typedef struct {
     int year;
 } Book;
 
-Book* get_book_id(const Book* book);
-Book* get_title(Book* book);
-Book* get_author(Book* book);
-Book* get_year(Book* book);
 void set_title(Book* book);
 void set_author(Book* book);
 void set_year(Book* book);

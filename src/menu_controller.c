@@ -21,7 +21,7 @@ void menu_controller(Library_state* state) {
         }
 
         switch (choice) {
-            case 1: load_csv_file("library.csv", state); break;
+            case 1: load_or_create_csv_file("library.csv", state); break;
             case 2: add_book(state); break;
             case 3: delete_book_by_id(state); break;
             case 4: edit_book_by_id(state); break;

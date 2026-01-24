@@ -4,30 +4,40 @@
 #include <stdlib.h>
 #include <string.h>
 
-int create_file(const char *filename) {
-    FILE *fptr = fopen(filename, "a");
+void load_or_create_csv_file(const char *filename, Library_state *library) {
+    FILE *fptr = fopen(filename, "r");
     if (fptr == NULL) {
-        fprintf(stderr, "Nie udalo sie utworzyc pliku: %s\n", filename);
-        return 1;
+        fptr = fopen(filename, "w");
+        if (!fptr) {
+            fprintf(stderr, "Nie mozna utworzyc pliku: %s\n", filename);
+            return;
+        }
+        printf("Plik '%s' zostal utworzony.\n", filename);
+        fclose(fptr);
+    }
+
+    char line[256];
+    while (fgets(line, sizeof(line), fptr)) {
+        int id, year;
+        char title[50], author[50];
+        if (sscanf(line, "%d;%49[^;];%49[^;];%d", &id, title, author, &year) == 4) {
+            if (library->count == library->capacity) {
+                library->capacity *= 2;
+                library->book_list = realloc(library->book_list, sizeof(Book) * library->capacity);
+            }
+            Book *b = &library->book_list[library->count++];
+            b->book_id = id;
+            strcpy(b->title, title);
+            strcpy(b->author, author);
+            b->year = year;
+            if (id >= library->next_id) library->next_id = id + 1;
+        }
     }
 
     fclose(fptr);
-
-    printf("Plik '%s' zostal utworzony lub juz istnial.\n", filename);
-    return 0;
+    printf("Plik '%s' zostal wczytany. Liczba ksiazek w pamieci: %zu\n", filename, library->count);
 }
 
-// void read_file(const char *filename) {
-//     FILE *fptr = fopen(filename, "r");
-//     if (fptr == NULL) {
-//         printf("Nie udalo sie otworzyc pliku.\n");
-//         return;
-//     }
-
-//     printf("Plik istnieje i zostal otwarty.\n");
-
-//     fclose(fptr);
-// }
 
 void save_library_to_csv(const char *filename, Library_state *library) {
     FILE *fptr = fopen(filename, "w");
@@ -45,37 +55,4 @@ void save_library_to_csv(const char *filename, Library_state *library) {
     }
 
     fclose(fptr);
-}
-
-void load_csv_file(const char *filename, Library_state *state) {
-    FILE *fptr = fopen(filename, "r");
-    if (fptr == NULL) {
-        printf("Nie udalo się otworzyc pliku %s\n", filename);
-        return;
-    }
-
-    printf("Plik zostal otwarty.\n");
-
-    char line[256];
-
-    while (fgets(line, sizeof(line), fptr) != NULL) {
-        int id, year;
-        char title[50], author[50];
-        if (sscanf(line, "%d;%49[^;];%49[^;];%d", &id, title, author, &year) == 4) {
-            if (state->count == state->capacity) {
-                state->capacity *= 2;
-                state->book_list = realloc(state->book_list, sizeof(Book) * state->capacity);
-            }
-            Book *b = &state->book_list[state->count++];
-            b->book_id = id;
-            strcpy(b->title, title);
-            strcpy(b->author, author);
-            b->year = year;
-
-            if (id >= state->next_id) state->next_id = id + 1;
-        }
-    }
-
-    fclose(fptr);
-    printf("Plik zostal wczytany. Liczba ksiazek w pamieci: %zu\n", state->count);
 }

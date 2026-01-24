@@ -4,23 +4,6 @@
 #include <string.h>
 #define BUFFER_SIZE 50
 
-
-Book* get_book_id(const Book* book) {
-    return (Book*)book;
-}
-
-Book* get_title(Book* book) {
-    return book;
-}
-
-Book* get_author(Book* book) {
-    return book;
-}
-
-Book* get_year(Book* book) {
-    return book;
-}
-
 void set_title(Book* book) {
     char buffer[BUFFER_SIZE];
     printf("Podaj tytul: ");
