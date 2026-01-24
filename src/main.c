@@ -2,6 +2,7 @@
 #include "include/library_state.h"
 #include "include/reports.h"
 #include "include/book.h"
+#include "include/menu_controller.h"
 #include <stdio.h>
 
 int main(void){
@@ -9,24 +10,9 @@ int main(void){
     create_file("library.csv");
     read_file("library.csv");
     library = create_library_state(10);
+    menu_controller(library);
+    free_library_state(library);
 
-    library = add_book(library);
-    library = add_book(library);
-    library = add_book(library);
-    
-    // find_book_by_id(library);
-    // find_books_by_title(library);
-    // find_books_by_author(library);
-    // find_books_by_year(library);
-    // find_all_books(library);
-    // delete_book_by_id(library);
-    // find_all_books(library);
-    // edit_book_by_id(library);
-    report_author_after_given_year(library);
-    report_author_for_year_range(library);
-    report_newest_books_of_given_amount(library);
-    report_oldest_and_newest_books(library);
-    find_all_books(library);
 
     return 0;
 }   

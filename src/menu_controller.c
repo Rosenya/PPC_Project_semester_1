@@ -1,6 +1,7 @@
-#include "util.h"
-#include "library_state.h"
-#include "reports.h"
+#include "include/menu_controller.h"
+#include "include/book.h"
+#include "include/library_state.h"
+#include "include/reports.h"
 #include <stdio.h>
 #include <stdlib.h>
 
