@@ -3,11 +3,56 @@
 #include "include/book.h"
 #include <stdio.h>
 #include <stdlib.h> 
+#include <string.h>
 
-Book* find_newest_books_of_given_amount(Library_state* state) {
+void report_author_after_given_year(Library_state* state) {
     if (state->count == 0) {
         printf("Biblioteka jest pusta.\n");
-        return NULL;
+        return;
+    }
+
+    int year;
+    char buffer[32];
+    printf("Podaj rok: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    year = atoi(buffer);
+
+    printf("Autorzy ksiazek wydanych po roku %d:\n", year);
+    for (size_t i = 0; i < state->count; i++) {
+        if (state->book_list[i].year > year) {
+            printf("- %s\n", state->book_list[i].author);
+        }
+    }
+}
+
+void report_author_for_year_range(Library_state* state) {
+    if (state->count == 0) {
+        printf("Biblioteka jest pusta.\n");
+        return;
+    }
+
+    int start_year, end_year;
+    char buffer[32];
+    printf("Podaj rok poczatkowy: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    start_year = atoi(buffer);
+
+    printf("Podaj rok koncowy: ");
+    fgets(buffer, sizeof(buffer), stdin);
+    end_year = atoi(buffer);
+
+    printf("Autorzy ksiazek wydanych w latach %d - %d:\n", start_year, end_year);
+    for (size_t i = 0; i < state->count; i++) {
+        if (state->book_list[i].year >= start_year && state->book_list[i].year <= end_year) {
+            printf("- %s\n", state->book_list[i].author);
+        }
+    }
+}
+
+void report_newest_books_of_given_amount(Library_state* state) {
+    if (state->count == 0) {
+        printf("Biblioteka jest pusta.\n");
+        return;
     }
 
     size_t amount;
@@ -18,13 +63,13 @@ Book* find_newest_books_of_given_amount(Library_state* state) {
 
     if (amount == 0) {
         printf("Nie podano poprawnej liczby ksiazek.\n");
-        return NULL;
+        return;
     }
 
     size_t result_count = (amount < state->count) ? amount : state->count;
 
     Book* temp = malloc(sizeof(Book) * state->count);
-    if (!temp) return NULL;
+    if (!temp) return;
     memcpy(temp, state->book_list, sizeof(Book) * state->count);
 
     for (size_t i = 0; i < state->count - 1; i++) {
@@ -37,34 +82,35 @@ Book* find_newest_books_of_given_amount(Library_state* state) {
         }
     }
 
-    Book* results = malloc(sizeof(Book) * result_count);
-    if (!results) {
-        free(temp);
-        return NULL;
+    printf("TOP %zu najnowszych ksiazek:\n", result_count);
+    for (size_t i = 0; i < result_count; i++) {
+        printf("ID: %d, Tytul: %s, Autor: %s, Rok: %d\n",
+               temp[i].book_id, temp[i].title, temp[i].author, temp[i].year);
     }
-    memcpy(results, temp, sizeof(Book) * result_count);
-    free(temp);
 
-    return results;
+    free(temp);
 }
 
-Book* find_oldest_and_newest_books(Library_state* state) {
+void report_oldest_and_newest_books(Library_state* state) {
     if (state->count == 0) {
-        return NULL;
+        printf("Biblioteka jest pusta.\n");
+        return;
     }
 
-    Book* oldest_newest = (Book*)malloc(sizeof(Book) * 2);
-    oldest_newest[0] = state->book_list[0];
-    oldest_newest[1] = state->book_list[0];
+    Book oldest = state->book_list[0];
+    Book newest = state->book_list[0];
 
     for (size_t i = 1; i < state->count; i++) {
-        if (state->book_list[i].year < oldest_newest[0].year) {
-            oldest_newest[0] = state->book_list[i];
+        if (state->book_list[i].year < oldest.year) {
+            oldest = state->book_list[i];
         }
-        if (state->book_list[i].year > oldest_newest[1].year) {
-            oldest_newest[1] = state->book_list[i];
+        if (state->book_list[i].year > newest.year) {
+            newest = state->book_list[i];
         }
     }
 
-    return oldest_newest;
+    printf("Najstarsza ksiazka: ID %d, Tytul: %s, Autor: %s, Rok: %d\n",
+           oldest.book_id, oldest.title, oldest.author, oldest.year);
+    printf("Najnowsza ksiazka: ID %d, Tytul: %s, Autor: %s, Rok: %d\n",
+           newest.book_id, newest.title, newest.author, newest.year);
 }

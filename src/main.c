@@ -1,5 +1,6 @@
 #include "include/csv_io.h"
 #include "include/library_state.h"
+#include "include/reports.h"
 #include "include/book.h"
 #include <stdio.h>
 
@@ -11,6 +12,7 @@ int main(void){
 
     library = add_book(library);
     library = add_book(library);
+    library = add_book(library);
     
     // find_book_by_id(library);
     // find_books_by_title(library);
@@ -20,8 +22,10 @@ int main(void){
     // delete_book_by_id(library);
     // find_all_books(library);
     // edit_book_by_id(library);
-    find_newest_books_of_given_amount(library);
-    // find_oldest_and_newest_books(library);
+    report_author_after_given_year(library);
+    report_author_for_year_range(library);
+    report_newest_books_of_given_amount(library);
+    report_oldest_and_newest_books(library);
     find_all_books(library);
 
     return 0;
