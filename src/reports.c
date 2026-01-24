@@ -19,7 +19,7 @@ void report_author_after_given_year(Library_state* state) {
 
     printf("Autorzy ksiazek wydanych po roku %d:\n", year);
     for (size_t i = 0; i < state->count; i++) {
-        if (state->book_list[i].year > year) {
+        if (state->book_list[i].year >= year) {
             printf("- %s\n", state->book_list[i].author);
         }
     }

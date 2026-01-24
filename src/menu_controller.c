@@ -5,6 +5,7 @@
 #include "include/reports.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 void menu_controller(Library_state* state) {
     int running = 1;
@@ -18,6 +19,12 @@ void menu_controller(Library_state* state) {
 
         if (fgets(buffer, sizeof(buffer), stdin)) {
             choice = (int)strtol(buffer, NULL, 10);
+
+            size_t len = strlen(buffer);
+            if (len > 0 && buffer[len - 1] != '\n') {
+                int c;
+                while ((c = getchar()) != '\n' && c != EOF);
+            }
         }
 
         switch (choice) {
