@@ -14,6 +14,11 @@ void load_or_create_csv_file(const char *filename, Library_state *library) {
         }
         printf("Plik '%s' zostal utworzony.\n", filename);
         fclose(fptr);
+        fptr = fopen(filename, "r");
+        if (!fptr) {
+            fprintf(stderr, "Nie mozna ponownie otworzyc pliku: %s\n", filename);
+            return;
+        }
     }
 
     char line[256];
