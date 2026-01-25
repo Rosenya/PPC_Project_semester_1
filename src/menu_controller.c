@@ -13,18 +13,22 @@ void menu_controller(Library_state* state) {
 
     while (running) {
         char buffer[32];
-        int choice = -1;
+        int choice = -1;        
+        char *endptr;
 
         menu_msg();
 
-        if (fgets(buffer, sizeof(buffer), stdin)) {
-            choice = (int)strtol(buffer, NULL, 10);
+        if (!fgets(buffer, sizeof(buffer), stdin)) {
+            printf("Blad odczytu.\n");
+            continue;
+        }
 
-            size_t len = strlen(buffer);
-            if (len > 0 && buffer[len - 1] != '\n') {
-                int c;
-                while ((c = getchar()) != '\n' && c != EOF);
-            }
+        choice = (int)strtol(buffer, &endptr, 10);
+
+        // Walidacja wejscia
+        if (endptr == buffer || (*endptr != '\n' && *endptr != '\0')) {
+            printf("Nieprawidlowy wybor. Podaj liczbe z menu.\n");
+            continue;
         }
 
         switch (choice) {

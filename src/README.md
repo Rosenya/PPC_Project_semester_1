@@ -243,3 +243,7 @@ ID: 4, Tytul: wyslannik, Autor: p.hendel, Rok: 2020
 Twoj wybor: 13
 Najstarsza ksiazka: ID 8, Tytul: koralina, Autor: n.gaiman, Rok: 2003
 Najnowsza ksiazka: ID 5, Tytul: demon, Autor: p.hendel, Rok: 2022
+
+Twoj wybor: s
+Nieprawidlowy wybor. Podaj liczbe z menu.
+
