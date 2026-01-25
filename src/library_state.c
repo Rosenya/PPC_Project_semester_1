@@ -162,7 +162,7 @@ Book* delete_book_by_id(Library_state* state) {
 
 Book* edit_book_by_id(Library_state* state) {
     int book_id = get_book_id_from_user();
-    printf("Podaj ID ksiazki do edycji: ");
+
     Book* book = NULL;
     for (size_t i = 0; i < state->count; i++) {
         if (state->book_list[i].book_id == book_id) {
@@ -170,11 +170,12 @@ Book* edit_book_by_id(Library_state* state) {
             break;
         }
     }
+
     if (!book) {
         printf("Nie znaleziono ksiazki o ID %d.\n", book_id);
         return NULL;
     }
-    printf("Podaj nowe dane ksiazki:\n");
+
     set_title(book);
     set_author(book);
     set_year(book);

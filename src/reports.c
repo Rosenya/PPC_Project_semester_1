@@ -11,17 +11,33 @@ void report_author_after_given_year(Library_state* state) {
         return;
     }
 
-    int year;
     char buffer[32];
-    printf("Podaj rok: ");
-    fgets(buffer, sizeof(buffer), stdin);
-    year = atoi(buffer);
+    long year;
+    char *endptr;
 
-    printf("Autorzy ksiazek wydanych po roku %d:\n", year);
+    printf("Podaj rok: ");
+    if (!fgets(buffer, sizeof(buffer), stdin)) {
+        printf("Blad odczytu.\n");
+        return;
+    }
+
+    year = strtol(buffer, &endptr, 10); //strtol konwertuje string na long z walidacja
+    if (endptr == buffer || *endptr != '\n') {
+        printf("Nieprawidlowe dane. Podaj liczbe calkowita.\n");
+        return;
+    }
+
+    int found = 0;
+    printf("Autorzy ksiazek wydanych po roku %ld:\n", year);
     for (size_t i = 0; i < state->count; i++) {
         if (state->book_list[i].year >= year) {
             printf("- %s\n", state->book_list[i].author);
+            found = 1;
         }
+    }
+
+    if (!found) {
+        printf("Nie znaleziono ksiazek wydanych po roku %ld.\n", year);
     }
 }
 
@@ -31,21 +47,49 @@ void report_author_for_year_range(Library_state* state) {
         return;
     }
 
-    int start_year, end_year;
     char buffer[32];
+    long start_year, end_year;
+    char *endptr;
+
     printf("Podaj rok poczatkowy: ");
-    fgets(buffer, sizeof(buffer), stdin);
-    start_year = atoi(buffer);
+    if (!fgets(buffer, sizeof(buffer), stdin)) {
+        printf("Blad odczytu.\n");
+        return;
+    }
+    start_year = strtol(buffer, &endptr, 10);
+    if (endptr == buffer || (*endptr != '\n' && *endptr != '\0')) {
+        printf("Nieprawidlowe dane. Podaj liczbe calkowita.\n");
+        return;
+    }
 
     printf("Podaj rok koncowy: ");
-    fgets(buffer, sizeof(buffer), stdin);
-    end_year = atoi(buffer);
+    if (!fgets(buffer, sizeof(buffer), stdin)) {
+        printf("Blad odczytu.\n");
+        return;
+    }
+    end_year = strtol(buffer, &endptr, 10);
+    if (endptr == buffer || (*endptr != '\n' && *endptr != '\0')) {
+        printf("Nieprawidlowe dane. Podaj liczbe calkowita.\n");
+        return;
+    }
 
-    printf("Autorzy ksiazek wydanych w latach %d - %d:\n", start_year, end_year);
+    if (start_year > end_year) {
+        printf("Niepoprawny przedzial lat: poczatek wiekszy od konca.\n");
+        return;
+    }
+
+    int found = 0;
+    printf("Autorzy ksiazek wydanych w latach %ld - %ld:\n", start_year, end_year);
     for (size_t i = 0; i < state->count; i++) {
-        if (state->book_list[i].year >= start_year && state->book_list[i].year <= end_year) {
+        int year = state->book_list[i].year;
+        if (year >= start_year && year <= end_year) {
             printf("- %s\n", state->book_list[i].author);
+            found = 1;
         }
+    }
+
+    if (!found) {
+        printf("Nie znaleziono ksiazek w zadanym przedziale lat.\n");
     }
 }
 
